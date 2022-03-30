@@ -7,33 +7,52 @@ function App() {
     const REDIRECT_URI = "https://localhost:3000"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
+    const SCOPE = 'playlist-modify-private'
 
     const [token, setToken] = useState("")
     const [searchKey, setSearchKey] = useState("")
-    const [tracks, setTrack] = useState([])
+    const {tracks, setTrack} = useSearchResult()
 
-    const getToken = () => {
-        let urlParams = new URLSearchParams(window.location.hash.replace("#","?"));
-        let token = urlParams.get('access_token');
+    const handleAuthorizeUser = () => {
+        window.location.replace(`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`)
     }
 
-    useEffect(() => {
-        const hash = window.location.hash
-        let token = window.localStorage.getItem("token")
-
-        getToken()
-
-
-        if (!token && hash) {
-            token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-
-            window.location.hash = ""
-            window.localStorage.setItem("token", token)
-        }
-
+    const parseToken = (url) =>{
+        const parsed = url.split('&')[0].split('=')
+        const token = parsed[parsed.length-1] ?? null
         setToken(token)
+    }
 
-    }, [])
+    const handleSearch = async () => {
+
+    }
+
+    useEffect(()=>{
+        if (window.location.hash) parseToken(window.location.hash)
+    },[])
+
+    // const getToken = () => {
+    //     let urlParams = new URLSearchParams(window.location.hash.replace("#","?"));
+    //     let token = urlParams.get('access_token');
+    // }
+
+    // useEffect(() => {
+    //     const hash = window.location.hash
+    //     let token = window.localStorage.getItem("token")
+
+    //     getToken()
+
+
+    //     if (!token && hash) {
+    //         token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
+
+    //         window.location.hash = ""
+    //         window.localStorage.setItem("token", token)
+    //     }
+
+    //     setToken(token)
+
+    // }, [])
 
     const logout = () => {
         setToken("")
@@ -44,15 +63,16 @@ function App() {
         e.preventDefault()
         const {data} = await axios.get("https://api.spotify.com/v1/search", {
             headers: {
-                Authorization: `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             params: {
                 q: searchKey,
-                type: "track"
+                type: 'track'
             }
         })
-
-        setTrack(data.tracks.items)
+        .then((response) => {
+            setTrack(response.data.tracks.items)
+        })
     }
 
     const renderTrack = () => {
