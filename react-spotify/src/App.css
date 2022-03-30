@@ -39,11 +39,23 @@
 
 img {
     padding: 20px;
-    float: left;
-    width: fit-content;
+    width: 70%;
 }
 
 .track {
-    margin: 20px;
+    margin: 30px;
     border-style: solid;
+    width: max-content;
+}
+
+.title {
+    font-size: small;
+    margin: 0pt;
+}
+
+h5 {
+    font-size: 24pt;
+    font-weight: normal;
+    margin: 0%;
+    padding-bottom: 20px;
 }

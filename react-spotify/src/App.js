@@ -47,8 +47,10 @@ function App() {
         return Tracks.map(track => (
             <div className="track" key={track.id}>
                 {track.album.images.length ? <img src={track.album.images[1].url} alt=""/> : <div>No Image</div>}
-                <p>{track.name}</p>
-                <p>{track.artists[0].name}</p>
+                <p className="title">Track:</p>
+                <h5>{track.name}</h5>
+                <p className="title">Artist:</p>
+                <h5>{track.artists[0].name}</h5>
             </div>
         ))
     }
