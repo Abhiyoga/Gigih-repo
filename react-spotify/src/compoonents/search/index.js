@@ -1,86 +1,87 @@
 import { useEffect, useState } from 'react'
+import Container from "../Container";
+import axios from 'axios'
 import { useSearchResult } from '../../context/useSearchResult';
 import { useStoreApi } from '../../context/useStoreApi';
-import axios from 'axios'
 
-
+const BASE_URL = "https://api.spotify.com/v1/"
 const CLIENT_ID = "ccbf3bbbcbb9487fadc191d006ee678a"
 const REDIRECT_URI = "http://localhost:3000/"
 const AUTHORIZE_URL = "https://accounts.spotify.com/authorize"
 const SCOPE = "playlist-modify-private"
 
 
-const SearchRes = () => {
-    const [token, setToken] = useStoreApi()
-    const [searchKey, setSearchKey] = useState("")
-    const [Tracks, setTracks] = useSearchResult()
+const Navbar = () => {
+    const [query,setQuery] = useState('')
+    const { result, setResult } = useSearchResult()
+    const { token, setToken } = useStoreApi()
 
-    const parseToken = (url) =>{
+    const handleAuthorizeUser = () => {
+        window.location.replace(`${AUTHORIZE_URL}?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`)
+    }
+
+    const parseToken = (url) => {
         const parsed = url.split('&')[0].split('=')
         const token = parsed[parsed.length-1] ?? null
         setToken(token)
     }
 
-    useEffect(()=>{
-        if (window.location.hash) parseToken(window.location.hash)
-    },[])
-
-    const logout = () => {
-        setToken("")
-        window.localStorage.removeItem("token")
-}
-
-    const searchTracks = async (e) => {
-        await axios.get("https://api.spotify.com/v1/search", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
+    const handleSearch = async () => {
+        await axios.get(`${BASE_URL}search`,{
             params: {
-                q: searchKey,
-                type: "track"
+                q: query,
+                type: 'track'
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
         })
         .then((response) => {
-            setTracks(response.data.tracks.items)
+            setResult(response.data.tracks.items)
         })
     }
 
-    const renderTracks = () => {
-        return Tracks.map(track => (
-            <div className="track" key={track.id}>
-                {track.album.images.length ? <img src={track.album.images[1].url} alt=""/> : <div>No Image</div>}
-                <p className="title">Track:</p>
-                <h5>{track.name}</h5>
-                <p className="title">Artist:</p>
-                <h5>{track.artists[0].name}</h5>
-            </div>
-        ))
-    }
+    useEffect(() => {
+        if (window.location.hash) parseToken(window.location.hash)
+    },[])
 
     return (
         <section className="bg-gray-800 py-4">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
-                <h1>Spotify React</h1>
-                {!token ?
-                    <a href={`${AUTHORIZE_URL}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}`}>Login
-                        to Spotify</a>
-                    : <button onClick={logout}>Logout</button>}
-
-                {token ?
-                    <form onSubmit={searchTracks}>
-                        <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-                        <button type={"submit"}>Search</button>
-                    </form>
-
-                    : <h2>Please login</h2>
-                }
-
-                {renderTracks()}
-
-            </div>
+            <Container>
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
+                    <a href="/" className="text-white font-bold text-lg lg:text-xl">
+                        Spotify React
+                    </a>
+                    {
+                        !token &&
+                        <button
+                            onClick={handleAuthorizeUser}
+                            className="text-white border border-white rounded-full py-2 px-6 hover:bg-gray-700">
+                            Login
+                        </button>
+                    }
+                    {
+                        token && 
+                        <div className='flex flex-col md:flex-row items-start md:items-center my-2 space-y-2'>
+                            {
+                                result.length > 0 &&
+                                <button className='mr-4 text-white' onClick={() => {
+                                    setResult([])
+                                    setQuery('')
+                                }}>
+                                    Clear
+                                </button>
+                            }
+                            <div className='flex'>
+                                <input name="query" className='rounded-l-full py-2 px-4' value={query} onChange={(e) => setQuery(e.target.value)} />
+                                <button className='bg-green-500 py-2 px-4 rounded-r-full' onClick={handleSearch}>Search</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </Container>
         </section>
-        
     )
 }
 
-export default SearchRes;
+export default Navbar;
