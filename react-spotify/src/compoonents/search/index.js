@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
-import Container from "../Container";
+import { useSearchResult } from '../../context/useSearchResult';
+import { useStoreApi } from '../../context/useStoreApi';
 import axios from 'axios'
 
 
 const CLIENT_ID = "ccbf3bbbcbb9487fadc191d006ee678a"
-const BASE_URL = "https://api.spotify.com/v1/"
 const REDIRECT_URI = "http://localhost:3000/"
 const AUTHORIZE_URL = "https://accounts.spotify.com/authorize"
 const SCOPE = "playlist-modify-private"
 
 
 const SearchRes = () => {
-    const [token, setToken] = useState("")
+    const [token, setToken] = useStoreApi()
     const [searchKey, setSearchKey] = useState("")
-    const [Tracks, setTracks] = useState([])
+    const [Tracks, setTracks] = useSearchResult()
 
     const parseToken = (url) =>{
         const parsed = url.split('&')[0].split('=')
@@ -31,8 +31,7 @@ const SearchRes = () => {
 }
 
     const searchTracks = async (e) => {
-        e.preventDefault()
-        const {data} = await axios.get("https://api.spotify.com/v1/search", {
+        await axios.get("https://api.spotify.com/v1/search", {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -41,8 +40,9 @@ const SearchRes = () => {
                 type: "track"
             }
         })
-
-        setTracks(data.tracks.items)
+        .then((response) => {
+            setTracks(response.data.tracks.items)
+        })
     }
 
     const renderTracks = () => {
@@ -59,27 +59,25 @@ const SearchRes = () => {
 
     return (
         <section className="bg-gray-800 py-4">
-            <Container>
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
-                    <h1>Spotify React</h1>
-                    {!token ?
-                        <a href={`${AUTHORIZE_URL}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}`}>Login
-                            to Spotify</a>
-                        : <button onClick={logout}>Logout</button>}
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
+                <h1>Spotify React</h1>
+                {!token ?
+                    <a href={`${AUTHORIZE_URL}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}`}>Login
+                        to Spotify</a>
+                    : <button onClick={logout}>Logout</button>}
 
-                    {token ?
-                        <form onSubmit={searchTracks}>
-                            <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-                            <button type={"submit"}>Search</button>
-                        </form>
+                {token ?
+                    <form onSubmit={searchTracks}>
+                        <input type="text" onChange={e => setSearchKey(e.target.value)}/>
+                        <button type={"submit"}>Search</button>
+                    </form>
 
-                        : <h2>Please login</h2>
-                    }
+                    : <h2>Please login</h2>
+                }
 
-                    {renderTracks()}
+                {renderTracks()}
 
-                </div>
-            </Container>
+            </div>
         </section>
         
     )
