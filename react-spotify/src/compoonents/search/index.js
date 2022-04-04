@@ -1,8 +1,7 @@
- import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Container from "../Container";
 import axios from 'axios'
-import { useSearchResult } from '../../context/useSearchResult';
-import { useStoreApi } from '../../context/useStoreApi';
+
 
 const CLIENT_ID = "ccbf3bbbcbb9487fadc191d006ee678a"
 const BASE_URL = "https://api.spotify.com/v1/"
