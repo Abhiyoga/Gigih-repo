@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Container from "../Container";
-import Track from ".";
+import Track from "../Track";
 import songs from '../../content/tracks';
 import { useSearchResult } from "../../context/useSearchResult";
-import { useStoreApi } from '../../context/useStoreApi.js';
+import { useStoreApi } from '../../context/useStoreApi';
 
 const Tracks = () => {
     const { result, selectedSongs, setSelectedSongs, setResult } = useSearchResult()

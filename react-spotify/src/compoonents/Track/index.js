@@ -1,6 +1,6 @@
 import { useSearchResult } from "../../context/useSearchResult";
 
-const Track = ({number,title,album, uri, song}) => {
+const Track = ({number,title,artist,album, uri, song}) => {
     const {selectedSongs, setSelectedSongs} = useSearchResult()
     const generateButtonText = () => {
         const selected = selectedSongs.findIndex((song) => song.uri === uri)
@@ -30,6 +30,8 @@ const Track = ({number,title,album, uri, song}) => {
                 <div className="text-left">
                     <h3 className="font-semibold">{title}</h3>
                     <div>
+                        {/* <span className="text-gray-300">{artist}</span>
+                        <span className="mx-4">–</span> */}
                         <span className="text-gray-300">{album}</span>
 
                     </div>

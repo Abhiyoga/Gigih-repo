@@ -4,12 +4,11 @@ import axios from 'axios'
 import { useSearchResult } from '../../context/useSearchResult';
 import { useStoreApi } from '../../context/useStoreApi';
 
-const BASE_URL = "https://api.spotify.com/v1/"
-const CLIENT_ID = "ccbf3bbbcbb9487fadc191d006ee678a"
-const REDIRECT_URI = "http://localhost:3000/"
-const AUTHORIZE_URL = "https://accounts.spotify.com/authorize"
-const SCOPE = "playlist-modify-private"
-
+const BASE_URL = process.env.REACT_APP_SPOTIFY_BASE_URL
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID
+const AUTHORIZE_URL = process.env.REACT_APP_SPOTIFY_AUTHORIZE_LINK
+const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI
+const SCOPE = 'playlist-modify-private'
 
 const Navbar = () => {
     const [query,setQuery] = useState('')
@@ -50,7 +49,7 @@ const Navbar = () => {
             <Container>
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
                     <a href="/" className="text-white font-bold text-lg lg:text-xl">
-                        Spotify React
+                        Spotify Clone
                     </a>
                     {
                         !token &&
@@ -69,7 +68,7 @@ const Navbar = () => {
                                     setResult([])
                                     setQuery('')
                                 }}>
-                                    Clear
+                                    Clear Result
                                 </button>
                             }
                             <div className='flex'>

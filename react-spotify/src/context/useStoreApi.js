@@ -5,7 +5,7 @@ const ApiContext = createContext({})
 
 export const ApiProvider = ({ children }) => {
     const [token,setToken] = useState(null)
-    const baseURL = "https://api.spotify.com/v1/"
+    const baseURL = process.env.REACT_APP_SPOTIFY_BASE_URL
 
     const axiosInstance = Axios.create({
         baseURL
