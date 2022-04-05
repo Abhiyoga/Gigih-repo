@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Container from "../Container";
 import Track from "../Track";
-import songs from '../../content/tracks';
 import { useSearchResult } from "../../context/useSearchResult";
 import { useStoreApi } from '../../context/useStoreApi';
 
@@ -85,7 +84,7 @@ const Tracks = () => {
     }
 
     return (
-        <section className="py-8 bg-gradient-to-b from-gray-700 to-gray-800 flex-grow">
+        <section className="py-8 bg-black flex-grow">
             <Container>
                 {
                     selectedSongs.length > 0 &&
@@ -132,19 +131,6 @@ const Tracks = () => {
                         </div>
                     )
                 }
-                {result.length === 0 && songs.map(
-                    (song,idx) => (
-                        <Track
-                            key={idx}
-                            number={idx}
-                            title={song.name}
-                            artist={song.artists[0].name}
-                            album={song.album.name}
-                            uri={song.uri}
-                            song={song}
-                        />
-                    )
-                )}
                 {
                     result.length > 0 && result.map(
                         (song,idx) => (

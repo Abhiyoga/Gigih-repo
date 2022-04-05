@@ -22,7 +22,7 @@ const UserPlaylist = () => {
     },[token,axios])
 
     return (
-        <section className="py-8 bg-gradient-to-b from-gray-700 to-gray-800 text-white text-left">
+        <section className="py-8 bg-black text-white text-left">
             <Container>
                 <div className="mb-3">
                     <h1 className="text-xl font-bold">Your Playlist</h1>

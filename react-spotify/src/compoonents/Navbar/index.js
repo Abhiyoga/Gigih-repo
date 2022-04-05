@@ -42,13 +42,14 @@ const Navbar = () => {
 
     useEffect(() => {
         if (window.location.hash) parseToken(window.location.hash)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return (
-        <section className="bg-gray-800 py-4">
+        <section className="bg-gray-700 py-4">
             <Container>
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
-                    <a href="/" className="text-white font-bold text-lg lg:text-xl">
+                    <a href="/" className="text-green-500 font-bold text-lg lg:text-2xl">
                         Spotify Clone
                     </a>
                     {
@@ -72,8 +73,8 @@ const Navbar = () => {
                                 </button>
                             }
                             <div className='flex'>
-                                <input name="query" className='rounded-l-full py-2 px-4' value={query} onChange={(e) => setQuery(e.target.value)} />
-                                <button className='bg-green-500 py-2 px-4 rounded-r-full' onClick={handleSearch}>Search</button>
+                                <input name="query" className='py-2 px-6' value={query} onChange={(e) => setQuery(e.target.value)} />
+                                <button className='bg-green-500 py-2 px-6 ' onClick={handleSearch}>Search</button>
                             </div>
                         </div>
                     }

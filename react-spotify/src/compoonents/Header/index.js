@@ -3,7 +3,7 @@ import data from "../../content/album"
 
 const Header = (props) => {
     return (
-        <section className="py-12 bg-gradient-to-b from-blue-700 to-blue-900">
+        <section className="py-12 bg-black">
             <Container>
                 <section className="flex flex-col lg:flex-row items-start lg:items-end lg:space-x-4 text-white">
                     <div>
