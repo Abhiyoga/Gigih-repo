@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import Container from "../Container";
-import axios from 'axios'
 import { useSearchResult } from '../../context/useSearchResult';
 import { useStoreApi } from '../../context/useStoreApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { setToken } from "../../reducer/AuthReducer";
 
 const BASE_URL = process.env.REACT_APP_SPOTIFY_BASE_URL
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID
@@ -13,7 +14,11 @@ const SCOPE = 'playlist-modify-private'
 const Navbar = () => {
     const [query,setQuery] = useState('')
     const { result, setResult } = useSearchResult()
-    const { token, setToken } = useStoreApi()
+    const { axios } = useStoreApi()
+
+    
+    const token = useSelector(state => state.auth.token)
+    const dispatch = useDispatch()
 
     const handleAuthorizeUser = () => {
         window.location.replace(`${AUTHORIZE_URL}?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`)
@@ -22,7 +27,7 @@ const Navbar = () => {
     const parseToken = (url) => {
         const parsed = url.split('&')[0].split('=')
         const token = parsed[parsed.length-1] ?? null
-        setToken(token)
+        dispatch(setToken(token))
     }
 
     const handleSearch = async () => {
