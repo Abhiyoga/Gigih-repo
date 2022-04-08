@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import React from 'react'
 import Container from "../Container";
 import { useSearchResult } from '../../context/useSearchResult';
 import { useStoreApi } from '../../context/useStoreApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken } from "../../reducer/AuthReducer";
+import { Link } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_SPOTIFY_BASE_URL
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID
@@ -16,7 +18,7 @@ const Navbar = () => {
     const { result, setResult } = useSearchResult()
     const { axios } = useStoreApi()
 
-    
+
     const token = useSelector(state => state.auth.token)
     const dispatch = useDispatch()
 
@@ -54,9 +56,9 @@ const Navbar = () => {
         <section className="bg-gray-700 py-4">
             <Container>
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-2">
-                    <a href="/" className="text-green-500 font-bold text-lg lg:text-2xl">
+                    <Link to="/" className="text-green-500 font-bold text-lg lg:text-2xl">
                         Spotify Clone
-                    </a>
+                    </Link>
                     {
                         !token &&
                         <button

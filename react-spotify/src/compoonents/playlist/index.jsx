@@ -1,11 +1,14 @@
 import Container from "../Container";
+import React from 'react'
 import { useEffect, useState } from "react";
 import { useStoreApi } from "../../context/useStoreApi";
+import { useSelector } from "react-redux";
 import Item from './Item'
 
 const UserPlaylist = () => {
-    const { axios, token } = useStoreApi()
+    const { axios } = useStoreApi()
     const [playlists,setPlaylists] = useState([])
+    const token = useSelector(state => state.auth.token)
 
     useEffect(() => {
         const fetchPlaylistData = async () => {
