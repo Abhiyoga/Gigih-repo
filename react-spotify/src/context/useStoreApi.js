@@ -1,11 +1,12 @@
-import { useState, createContext, useContext } from 'react'
+import {createContext, useContext } from 'react'
 import React from 'react'
 import Axios from 'axios'
+import { useSelector } from "react-redux";
 
 const ApiContext = createContext({})
 
 export const ApiProvider = ({ children }) => {
-    const [token,setToken] = useState(null)
+    const token = useSelector(state => state.auth.token)
     const baseURL = process.env.REACT_APP_SPOTIFY_BASE_URL
 
     const axiosInstance = Axios.create({
@@ -26,7 +27,6 @@ export const ApiProvider = ({ children }) => {
         <ApiContext.Provider
             value={{
                 axios: axiosInstance,
-                setToken,
                 token
             }}
         >

@@ -1,5 +1,4 @@
 import Container from "../Container";
-import React from 'react'
 import { useEffect, useState } from "react";
 import { useStoreApi } from "../../context/useStoreApi";
 import { useSelector } from "react-redux";
@@ -13,7 +12,7 @@ const UserPlaylist = () => {
     useEffect(() => {
         const fetchPlaylistData = async () => {
             try {
-                const response = await axios.get('/me/playlists')
+                const response = await axios.get('/me/playlists?limit=5')
                 if (response) {
                     setPlaylists(response?.data?.items)
                 }
