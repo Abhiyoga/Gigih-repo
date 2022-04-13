@@ -5,6 +5,7 @@ import { useStoreApi } from '../../context/useStoreApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken } from "../../reducer/AuthReducer";
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 const BASE_URL = process.env.REACT_APP_SPOTIFY_BASE_URL
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID
@@ -35,7 +36,8 @@ const Navbar = () => {
         await axios.get(`${BASE_URL}search`,{
             params: {
                 q: query,
-                type: 'track'
+                type: 'track',
+                limit: 10
             },
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -80,7 +82,7 @@ const Navbar = () => {
                             }
                             <div className='flex'>
                                 <input name="query" className='py-2 px-6' value={query} onChange={(e) => setQuery(e.target.value)} />
-                                <button className='bg-green-500 py-2 px-6 ' onClick={handleSearch}>Search</button>
+                                <Button variant="contained" color='success' onClick={handleSearch}>Search</Button>
                             </div>
                         </div>
                     }

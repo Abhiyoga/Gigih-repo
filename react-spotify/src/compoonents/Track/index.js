@@ -21,7 +21,7 @@ const Track = ({number,title,artist,album, uri, song}) => {
 
     return (
         <div>
-            <div className="grid lg:grid-cols-[50px_1fr_80px] gap-4 text-white mb-3">
+            <div className="grid lg:grid-cols-[50px_1fr_80px] gap-4 text-white mb-3 ml-3">
                 <div className="flex items-center justify-center hidden md:block">
                     {number+1}
                 </div>
@@ -36,7 +36,7 @@ const Track = ({number,title,artist,album, uri, song}) => {
                 </div>
                 <div className="flex flex-col lg:flex-row lg:items-center justify-center">
                     <button
-                        className="transition-all py-2 px-5 text-sm border border-gray-600 hover:border-green-500 hover:bg-green-500 hover:text-black transition-all mt-2 lg:mt-0 rounded-full"
+                        className="transition-all py-2 px-5 text-sm border border-gray-600 hover:border-green-500 hover:bg-green-500 hover:text-black transition-all mt-2 lg:mt-0 rounded-sm"
                         onClick={handleSelect}
                     >
                         {generateButtonText()}

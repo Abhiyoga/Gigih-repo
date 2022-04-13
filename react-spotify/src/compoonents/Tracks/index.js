@@ -35,7 +35,7 @@ const Tracks = () => {
                             {
                                 token
                                 ? (
-                                    <Link to="/create-playlist" className="py-2 px-4 bg-green-500 rounded-full w-full mt-3 block">
+                                    <Link to="/create-playlist" className="py-2 px-4 bg-green-500 rounded-sm w-full mt-3 block">
                                         Create Playlist
                                     </Link>
                                 ) : (
@@ -48,7 +48,7 @@ const Tracks = () => {
                 }
                 {
                     result.length > 0 && (
-                        <div className="text-white text-left mb-4">
+                        <div className="text-white text-left mb-4 ml-3">
                             Search Result
                         </div>
                     )

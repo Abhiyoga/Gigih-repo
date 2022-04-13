@@ -27,7 +27,7 @@ const UserPlaylist = () => {
         <section className="py-8 bg-black text-white text-left">
             <Container>
                 <div className="mb-3">
-                    <h1 className="text-xl font-bold">Your Playlist</h1>
+                    <h1 className="text-xl ml-3 font-bold">Your Playlist</h1>
                     {!token && 
                         <div className="mt-2">
                             Sign in to see your playlist
