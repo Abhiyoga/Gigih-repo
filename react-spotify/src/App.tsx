@@ -3,7 +3,7 @@ import React from 'react'
 import { SearchProvider } from "./context/useSearchResult"
 import { ApiProvider } from "./context/useStoreApi"
 import Home from "./page/home";
-import { useSelector } from 'react-redux';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,7 +14,7 @@ import {
 import MainApp from "./page/app";
 
 function App() {
-  const token = useSelector(state => state.auth.token)
+  const token = useSelector((state: RootStateOrAny) => state.auth.token);
   return (
     <Router>
       <Switch>
