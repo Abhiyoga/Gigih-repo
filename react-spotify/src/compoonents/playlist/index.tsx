@@ -1,7 +1,6 @@
 import Container from "../Container";
 import { useEffect, useState } from "react";
 import { useSelector, RootStateOrAny } from "react-redux";
-import Playlistitems from './Item'
 
 export interface Playlist {
   href: string
@@ -63,10 +62,10 @@ const UserPlaylist = () => {
     const token = useSelector((state: RootStateOrAny) => state.auth.token);
 
     useEffect(() => {
-        const fetchPlaylistData = async () => fetch('/me/playlists?limit=5')
+        const fetchPlaylistData = async () => fetch('/me/playlists')
             .then(res => res.json())
             .then((response: Playlist) => {
-            setPlaylists(response?.items)
+              setPlaylists(response.items)
             })
         if (token) fetchPlaylistData()
     },[token])
@@ -83,11 +82,23 @@ const UserPlaylist = () => {
                     }
                 </div>
                 <div>
-                    {
-                        playlists.map((item,idx) => {
-                            return <Playlistitems key={idx} playlist={item} />
-                        })
-                    }
+                  {
+                    playlists.map( play => {
+                      return (
+                        <div className="border border-gray-500 p-3 rounded-md mb-3 ml-3 flex flex-col lg:flex-row items-start lg:items-center justify-between">
+                          <div className="space-y-1">
+                            <h1 className="font-semibold">{play.name}</h1>
+                          </div>
+                          <a
+                            className="py-1 px-6 border border-gray-500 rounded-sm block hover:border-green-500 hover:bg-green-500 hover:text-black transition-all mt-2 lg:mt-0"
+                            href={play.external_urls.spotify}
+                            target="_blank"
+                            rel="noreferrer"
+                          >Play</a>
+                        </div> 
+                      )
+                    })
+                  }
                 </div>
             </Container>
         </section>
