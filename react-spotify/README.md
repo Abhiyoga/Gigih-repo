@@ -4,7 +4,7 @@ A Project that created using the create-react CLI.
 
 ## Description
 
-A Clone Web-app that consumes data from the spotify API to get the user's playlist and implementing the search function just like the official app.
+A Clone Web-app that fetch data from the spotify API to get the user's playlist and implementing the search function just like the official app.
 
 ## Installation
 
